@@ -67,6 +67,10 @@ spec:
               period: 24h
       storage:
         type: filesystem
+        bucketNames:
+          chunks: chunks
+          ruler: ruler
+          admin: admin
       pattern_ingester:
         enabled: true
       ruler:
