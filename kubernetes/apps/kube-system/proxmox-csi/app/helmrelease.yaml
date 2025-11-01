@@ -17,21 +17,8 @@ spec:
           token_id: "kubernetes-csi@pve!csi"
           token_secret: "${PROXMOX_CSI_TOKEN_SECRET}"
           region: pve
-
     storageClass:
-      - name: proxmox-lvm-thin
-        storage: local-lvm
-        reclaimPolicy: Delete
-        fstype: ext4
-        ssd: true
-        cache: writethrough
-
-    controller:
-      replicaCount: 1
-
-    node:
-      enableFSGroupPolicy: true
-
-    liveness:
-      enabled: true
-
+        - name: proxmox-data-ext4
+          storage: local-lvm # Storage name at proxmox
+          reclaimPolicy: Delete
+          fstype: ext4
