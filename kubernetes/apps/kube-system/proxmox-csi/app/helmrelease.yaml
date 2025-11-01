@@ -16,7 +16,7 @@ spec:
           insecure: false
           token_id: "kubernetes-csi@pve!csi"
           token_secret: "${PROXMOX_CSI_TOKEN_SECRET}"
-          region: pve
+          region: Region-1
     storageClass:
         - name: proxmox-data-ext4
           storage: local-lvm # Storage name at proxmox
