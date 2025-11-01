@@ -60,22 +60,27 @@ spec:
         configs:
           - from: "2024-04-01"
             store: tsdb
-            object_store: s3
+            object_store: filesystem
             schema: v13
             index:
               prefix: loki_index_
               period: 24h
+      storage:
+        type: filesystem
       pattern_ingester:
         enabled: true
       ruler:
         enable_api: true
     minio:
-      enabled: true
+      enabled: false
     lokiCanary:
       enabled: false
     deploymentMode: SingleBinary
     singleBinary:
       replicas: 1
+      persistence:
+        enabled: true
+        size: 10Gi
     # Zero out replica counts of other deployment modes
     backend:
       replicas: 0

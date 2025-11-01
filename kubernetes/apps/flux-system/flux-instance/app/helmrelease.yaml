@@ -23,7 +23,7 @@ spec:
       sync:
         kind: GitRepository
         url: "https://github.com/oskarfightingthekube/home-ops.git"
-        ref: "refs/heads/main"
+        ref: "refs/heads/feat/add-monitoring"
         path: kubernetes/flux/cluster
       commonMetadata:
         labels:
