@@ -1,0 +1,37 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: proxmox-csi
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: proxmox-csi
+  interval: 1h
+  timeout: 15m
+  values:
+    config:
+      clusters:
+        - url: https://${PROXMOX_HOST}:8006/api2/json
+          insecure: false
+          token_id: "kubernetes-csi@pve!csi"
+          token_secret: "${PROXMOX_CSI_TOKEN_SECRET}"
+          region: pve
+
+    storageClass:
+      - name: proxmox-lvm-thin
+        storage: local-lvm
+        reclaimPolicy: Delete
+        fstype: ext4
+        ssd: true
+        cache: writethrough
+
+    controller:
+      replicaCount: 1
+
+    node:
+      enableFSGroupPolicy: true
+
+    liveness:
+      enabled: true
+
