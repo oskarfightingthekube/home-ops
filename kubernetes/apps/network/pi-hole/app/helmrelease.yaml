@@ -1,0 +1,56 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: pi-hole
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: pi-hole
+  interval: 1h
+  values:
+    replicaCount: 1
+
+    image:
+      repository: pihole/pihole
+      tag: latest
+
+    serviceDns:
+      type: LoadBalancer
+      annotations:
+        lbipam.cilium.io/ips: "192.168.1.202"
+      externalTrafficPolicy: Local
+      port: 53
+
+    serviceWeb:
+      type: LoadBalancer
+      annotations:
+        lbipam.cilium.io/ips: "192.168.1.202"
+      http:
+        enabled: true
+        port: 80
+      https:
+        enabled: true
+        port: 443
+
+    persistentVolumeClaim:
+      enabled: true
+      size: 2Gi
+
+    adminPassword: "${PI_HOLE_PASSWORD}"
+
+    DNS1: "1.1.1.1"
+    DNS2: "8.8.8.8"
+
+    dnsmasq:
+      upstreamServers:
+        - 1.1.1.1
+        - 8.8.8.8
+
+    resources:
+      limits:
+        cpu: 500m
+        memory: 512Mi
+      requests:
+        cpu: 100m
+        memory: 256Mi
